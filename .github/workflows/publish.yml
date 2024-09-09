@@ -13,11 +13,14 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
+        working-directory: ./dependency-submission
       - run: npm ci
       - run: npm test
       - run: npm version ${TAG_NAME} --git-tag-version=false --allow-same-version
+        working-directory: ./dependency-submission
         env:
           TAG_NAME: ${{ github.event.release.tag_name }}
       - run: npm whoami; npm publish --access public
+        working-directory: ./dependency-submission
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}

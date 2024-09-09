@@ -1,14 +1,14 @@
-name: 'build-test'
+name: "build-test"
 
 on: # rebuild any PRs and main branch changes
   pull_request:
     branches:
       - main
-      - 'releases/*'
+      - "dependency-submission/releases/*"
   push:
     branches:
       - main
-      - 'releases/*'
+      - "dependency-submission/releases/*"
 
 jobs:
   build: # make sure build/ci work properly
@@ -20,5 +20,7 @@ jobs:
           node-version: 20
       - name: Install NPM dependencies
         run: npm ci
+        working-directory: ./dependency-submission
       - name: Run all NPM build/test actions
         run: npm run all
+        working-directory: ./dependency-submission
