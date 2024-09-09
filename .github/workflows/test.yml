@@ -1,0 +1,26 @@
+name: "build-test"
+
+on: # rebuild any PRs and main branch changes
+  pull_request:
+    branches:
+      - main
+      - "dependency-submission/releases/*"
+  push:
+    branches:
+      - main
+      - "dependency-submission/releases/*"
+
+jobs:
+  build: # make sure build/ci work properly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install NPM dependencies
+        run: npm ci
+        working-directory: ./dependency-submission
+      - name: Run all NPM build/test actions
+        run: npm run all
+        working-directory: ./dependency-submission
