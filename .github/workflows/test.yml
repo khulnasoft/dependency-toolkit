@@ -19,8 +19,9 @@ jobs:
         with:
           node-version: 20
       - name: Install NPM dependencies
-        run: npm ci
         working-directory: ./dependency-submission
+        run: pnpm install
+
       - name: Run all NPM build/test actions
-        run: npm run all
+        run: pnpm run all
         working-directory: ./dependency-submission
