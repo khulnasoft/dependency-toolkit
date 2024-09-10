@@ -1,8 +1,9 @@
 {
-  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "formatter": {
     "enabled": true,
-    "indentStyle": "space"
+    "indentStyle": "space",
+    "indentSize": 2
   },
   "javascript": {
     "formatter": {
