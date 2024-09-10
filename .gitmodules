@@ -1,15 +1,4 @@
-[submodule "dependabot-core"]
-	path = dependabot-core
-	url = https://github.com/dependabot/dependabot-core
-[submodule "cli"]
-	path = cli
-	url = https://github.com/dependabot/cli
-[submodule "dependabot-script"]
-	path = dependabot-script
-	url = https://github.com/dependabot/dependabot-script
-[submodule "git-shim"]
-	path = git-shim
-	url = https://github.com/dependabot/git-shim
-[submodule "smoke-tests"]
-	path = smoke-tests
-	url = https://github.com/dependabot/smoke-tests
+[submodule "nuget/helpers/lib/NuGet.Client"]
+	path = nuget/helpers/lib/NuGet.Client
+	url = https://github.com/NuGet/NuGet.Client
+	branch = release-6.10.x

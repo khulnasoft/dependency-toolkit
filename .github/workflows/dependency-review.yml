@@ -1,0 +1,25 @@
+name: Dependency Review
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '*/spec/fixtures/**'
+      - '*/helpers/test/*/fixtures/**'
+      - 'common/lib/dependabot.rb'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Perform Dependency Review
+        uses: actions/dependency-review-action@5a2ce3f5b92ee19cbb1541a4984c76d921601d7c # v4.3.4

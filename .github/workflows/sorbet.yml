@@ -1,0 +1,48 @@
+name: Sorbet
+on: # yamllint disable-line rule:truthy
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sorbet:
+    name: Sorbet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - uses: ruby/setup-ruby@161cd54b698f1fb3ea539faab2e036d409550e3c # v1.187.0
+        with:
+          bundler-cache: true
+
+      - run: bundle exec tapioca gem --verify
+
+      - run: bundle exec srb tc
+
+      - run: bundle exec spoom srb coverage
+
+      - run: |
+          bundle exec spoom srb bump --from=false --to=true --dry
+          bundle exec spoom srb bump --from=true --to=strict --dry
+          bundle exec spoom srb bump --from=strict --to=strong --dry
+
+      - run: bundle exec spoom srb coverage snapshot --save
+
+      - if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        with:
+          name: spoom_data
+          path: ./spoom_data/
+
+      - if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: ./script/generate-coverage-report
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        with:
+          name: spoom_report
+          path: ./spoom_report.html
