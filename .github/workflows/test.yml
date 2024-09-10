@@ -1,6 +1,6 @@
 name: "build-test"
 
-on: # rebuild any PRs and main branch changes
+on: # Rebuild any PRs and main branch changes
   pull_request:
     branches:
       - main
@@ -11,17 +11,24 @@ on: # rebuild any PRs and main branch changes
       - "dependency-submission/releases/*"
 
 jobs:
-  build: # make sure build/ci work properly
+  build: # Ensure build/ci work properly
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      # Install pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # Install NPM dependencies using pnpm in the 'dependency-submission' directory
       - name: Install NPM dependencies
         working-directory: ./dependency-submission
         run: pnpm install
 
+      # Run all NPM build/test actions in the 'dependency-submission' directory
       - name: Run all NPM build/test actions
-        run: pnpm run all
         working-directory: ./dependency-submission
+        run: pnpm run all
