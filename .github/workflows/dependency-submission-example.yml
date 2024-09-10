@@ -14,7 +14,12 @@ jobs:
         with:
           node-version: 20
       - name: Install NPM dependencies
-        run: npm ci
+        run: |
+          if [ -f ./dependency-submission/package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
         working-directory: ./dependency-submission
       - name: Run all NPM build/test actions
         run: npm run --workspace example all
