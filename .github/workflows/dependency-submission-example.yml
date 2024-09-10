@@ -22,7 +22,8 @@ jobs:
           fi
         working-directory: ./dependency-submission
       - name: Run all NPM build/test actions
-        run: npm run --workspace example all
+        run: npm run all
+        working-directory: ./dependency-submission/example
       - name: Run dependency submission
         uses: ./dependency-submission
         with:
